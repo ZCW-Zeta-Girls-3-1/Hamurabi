@@ -80,7 +80,7 @@ class Hamurabi(object):
               "Rule poorly and you will be kicked out of office!")
         print("Let's play!\n ===========================================")
 
- def ask_to_buy_land(bushels_in_storage, cost):
+def ask_to_buy_land(bushels_in_storage, cost):
     acres = int(input("How many acres of land do you want to buy?\n"))
     while acres * cost > bushels_in_storage:
         print("You only have" + str(bushels_in_storage) + "bushels of grain.")
@@ -99,7 +99,7 @@ def ask_to_feed_people(curr_bushels, num_of_people):
     while bushels_ongoing > curr_bushels:
         print("You don't have enough bushels of grain.")
         bushels_ongoing = int(input("Try again. How many bushels do you want to feed your people?\n"))
-      return bushels_ongoing
+    return bushels_ongoing
 
 def ask_to_plant_land(num_of_people, bushels_ongoing):
     acres = int(input("How many acres of land do you want to plant with seed?\n"))
