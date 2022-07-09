@@ -62,20 +62,20 @@ class Hamurabi(object):
 
 
 
-    def rules(self):
-        print("Congratulations! You are the new ruler of ancient Sumer, elected for a ten year term of office. \n"
-              "Your duties are to dispense food, direct farming, and buy and sell land as needed to support your people.\n"
-              "Watch out for rat infestations and the plague! Grain is the general currency, measured in bushels.\n"
-              "The following will help you in your decisions:\n"
-              "\n"
-              "-Each person needs at least 20 bushels of grain per year to survive\n"
-              "-Each person can farm at most 10 acres of land\n"
-              "-It takes 2 bushels of grain to farm an acre of land\n"
-              "-The market price for land fluctuates yearly\n"
-              " \n"
-              "Rule wisely and you will be showered with appreciation at the end of your term. \n"
-              "Rule poorly and you will be kicked out of office!")
-        print("Let's play!\n ===========================================")
+def rules(self):
+     print("Congratulations! You are the new ruler of ancient Sumer, elected for a ten year term of office. \n"
+            "Your duties are to dispense food, direct farming, and buy and sell land as needed to support your people.\n"
+            "Watch out for rat infestations and the plague! Grain is the general currency, measured in bushels.\n"
+            "The following will help you in your decisions:\n"
+            "\n"
+            "-Each person needs at least 20 bushels of grain per year to survive\n"
+            "-Each person can farm at most 10 acres of land\n"
+            "-It takes 2 bushels of grain to farm an acre of land\n"
+            "-The market price for land fluctuates yearly\n"
+            " \n"
+            "Rule wisely and you will be showered with appreciation at the end of your term. \n"
+            "Rule poorly and you will be kicked out of office!")
+     print("Let's play!\n ===========================================")
 
 def ask_to_buy_land(bushels_in_storage, cost):
     acres = int(input("How many acres of land do you want to buy?\n"))
@@ -167,7 +167,7 @@ def get_unit_havst():
     return random.randint(1, 8)
 
 def do_rats_infest(hvst):
-        '''Check if there was rats' infestation'''
+        #'''Check if there was rats' infestation'''
     if random.randint(1, 100) < 40:
         bushels_destroyed = random.randint(10, 30) * hvst / 100
         return bushels_destroyed
