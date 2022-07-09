@@ -198,7 +198,7 @@ def game_ends(year_of_rule):
     print("Oh Hamurabi....Hamurabi...\n"
           "Unfortunately you starved people and they revolted!\n"
           "Your authority ended in the " + str(year_of_rule) + " of your ten year term.")
-
+    quit()
 
 
 if __name__ == '__main__':
