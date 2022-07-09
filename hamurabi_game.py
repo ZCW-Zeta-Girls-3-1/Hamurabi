@@ -14,6 +14,7 @@ class Hamurabi(object):
         people_starved = 0
         people_entered = 5
         bushels_destroyed = 200
+        plague_deaths = 0
 
         for year in range(1,11):
             print("Our benevolent leader Hamurabi!\n"
@@ -24,7 +25,9 @@ class Hamurabi(object):
                   "We harvested " + str(bushels_harvested) + " bushels at " + str(bushels_harvested_per_acre) +" bushels per acre.\n"
                   "Rats destroyed " + str(bushels_destroyed) + " bushels, leaving " + str(bushels) + " in storage.\n"
                   "The city owns " + str(acres_of_land) + " acres of land.\n"
-                  "Land is currently worth " + str(land_value) + " bushels per acre. \n" )
+                  "Land is currently worth " + str(land_value) + " bushels per acre. \n" 
+                  "There were " + str(plague_deaths) + " deaths from the plague")
+
 
             acres_bought = ask_to_buy_land(bushels, land_value)
             if acres_bought:
@@ -41,17 +44,16 @@ class Hamurabi(object):
             acres_planted = ask_to_plant_land(population, bushels)
             bushels -= acres_planted * 2
 
-            # ============ GAMZE SECTION ================
+
             plague_deaths = do_plague(population)
             population -= plague_deaths
             people_starved = get_starved_num(population, bushels_fed)
-            if people_starved > 0:
-                do_dismissal_for_starv(people_starved, population, year)
+            do_dismissal_for_starv(people_starved, population, year_of_rule)
             population -= people_starved
             people_entered = int(get_immigrts_num(acres_of_land, bushels, population, people_starved))
             population += people_entered
             bushels_harvested_per_acre = get_unit_havst()
-            bushels_harvested = get_havst_bushels(acres_of_land,bushels_harvested_per_acre)
+            bushels_harvested = get_havst_bushels(acres_planted,bushels_harvested_per_acre)
             bushels_destroyed = do_rats_infest(bushels_harvested)
             bushels += bushels_harvested - bushels_destroyed
             land_value = get_land_price()
@@ -60,7 +62,7 @@ class Hamurabi(object):
 
 
 
-        summary(acres_of_land, bushels, population, people_starved)
+        final_summary(acres_of_land, bushels, population, people_starved)
 
 
 
@@ -82,7 +84,7 @@ def rules(self):
 def ask_to_buy_land(bushels_in_storage, cost):
     acres = int(input("How many acres of land do you want to buy?\n"))
     while acres * cost > bushels_in_storage:
-        print("You only have" + str(bushels_in_storage) + "bushels of grain.")
+        print("You only have" + str(bushels_in_storage) + " bushels of grain.")
         acres = int(input("Again, how many acres do  you want to buy?\n"))
     return acres
 
@@ -119,7 +121,7 @@ def do_plague(num_of_people):
     if random.randint(0, 100) < 15:
         print("***O great Hammurabi, unluckily a horrible PLAGUE" \
                   " happened!", num_of_people / 2, "people died***")
-        return num_of_people / 2
+        return num_of_people // 2
     else:
         print("***Thank God! No plague this year***")
         return 0
@@ -171,8 +173,8 @@ def get_unit_havst():
 def do_rats_infest(hvst):
         #'''Check if there was rats' infestation'''
     if random.randint(1, 100) < 40:
-        bushels_destroyed = random.randint(10, 30) * hvst // 100
-        return bushels_destroyed
+        bushels_destroyed_by_rats = random.randint(10, 30) * hvst // 100
+        return bushels_destroyed_by_rats
     else:
         return 0
 
@@ -183,11 +185,18 @@ def get_land_price():
                                                                              " per acre next year***")
     return land_price
 
-def summary():
-    print ("Summary goes here")
+def final_summary(acres, bushels, num_of_people, num_of_the_starved):
+    print("CONGRATULATIONS!\n"
+          "Hamurabi our wonderful leader, you've made it successfully through your ten years in charge.\n"
+          "Your kingdom owns " + str(acres) + " acres of fertile land.\n"
+          "Your kingdom has " + str(bushels) + " bushels of grain in storage.\n"
+          "Your kingdom has a total population of " + str(num_of_people) + ".\n"
+          "You had " + str(num_of_the_starved) + " people starve in 10 years.\n")
 
 def game_ends(year_of_rule):
-    pass
+    print("Oh Hamurabi....Hamurabi...\n"
+          "Unfortunately you starved people and they revolted!\n"
+          "Your authority ended in the " + year_of_rule + " of your ten year term.")
 
 if __name__ == '__main__':
     Hamurabi().play_game()
