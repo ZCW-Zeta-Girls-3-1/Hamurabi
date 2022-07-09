@@ -45,18 +45,20 @@ class Hamurabi(object):
             plague_deaths = do_plague(population)
             population -= plague_deaths
             people_starved = get_starved_num(population, bushels_fed)
-            do_dismissal_for_starv(people_starved, population, year)
+            if people_starved > 0:
+                do_dismissal_for_starv(people_starved, population, year)
             population -= people_starved
-            people_entered = get_immigrts_num(acres_of_land, bushels, population, people_starved)
-            population =+ people_entered
+            people_entered = int(get_immigrts_num(acres_of_land, bushels, population, people_starved))
+            population += people_entered
             bushels_harvested_per_acre = get_unit_havst()
             bushels_harvested = get_havst_bushels(acres_of_land,bushels_harvested_per_acre)
-            bushels_destroyed= do_rats_infest(bushels_harvested)
+            bushels_destroyed = do_rats_infest(bushels_harvested)
             bushels += bushels_harvested - bushels_destroyed
             land_value = get_land_price()
+            year_of_rule = year_of_rule +1
             print()
 
-            #==============END OF THIS PART OF GAMZE SECTION============
+
 
         summary(acres_of_land, bushels, population, people_starved)
 
@@ -124,16 +126,16 @@ def do_plague(num_of_people):
 
 def get_starved_num(num_of_people, grain_fed):
         # get the number of people starved this year
-    num_of_the_starved = num_of_people - grain_fed / 20
+    num_of_the_starved = (num_of_people - grain_fed) / 20
     if num_of_the_starved > 0:
         print("***O great Hammurabi, unfortunately this year we " \
                   "have", num_of_the_starved, "PEOPLE STARVED***")
-        return num_of_the_starved
+        return int(num_of_the_starved)
     else:
         print("***O brilliant Hammurabi! This year we have NO people starved***")
         return 0
 
-def do_dismissal_for_starv(num_of_the_starved, num_of_people, year):
+def do_dismissal_for_starv(num_of_the_starved, num_of_people, year_of_rule):
         # judge whether or not the user should be dismissed according
         # to the numbers of people starved
     if num_of_the_starved > 0.45 * num_of_people:
@@ -141,18 +143,18 @@ def do_dismissal_for_starv(num_of_the_starved, num_of_people, year):
               "year", num_of_the_starved, "people have been starved, which represent " \
                                           "more than 45% of total population in your Samaria kingdom. According " \
                                           "to our laws, you're now unfortunately given an immediate dismissal request")
-            # game_ends(yr)
+        game_ends(year_of_rule)
 
 def get_immigrts_num(acres, bushels, num_of_people, num_of_the_starved):
         # get the number of immigrants to our country this year
     if num_of_the_starved:
         print("***O great Hammurabi, due to starvation, NO IMMIGRANTS this year" \
-              "come to our kingdom***")
+              " come to our kingdom***")
         return 0
     else:
-        num_of_immigrts = (20 * acres + bushels) / (100 * num_of_people) + 1
+        num_of_immigrts = (20 * acres + bushels) // (100 * num_of_people) + 1
         print("***O great Hammurabi, this year", num_of_immigrts, "immigrants" \
-                                                                      "come to our kingdom***")
+                                                                      " come to our kingdom***")
         return num_of_immigrts
 
 def get_havst_bushels(acres, unit_havst):
@@ -164,12 +166,12 @@ def get_havst_bushels(acres, unit_havst):
 
 def get_unit_havst():
         # get bushels per acre yielded
-    return random.randint(1, 8)
+    return random.randint(1, 6)
 
 def do_rats_infest(hvst):
         #'''Check if there was rats' infestation'''
     if random.randint(1, 100) < 40:
-        bushels_destroyed = random.randint(10, 30) * hvst / 100
+        bushels_destroyed = random.randint(10, 30) * hvst // 100
         return bushels_destroyed
     else:
         return 0
@@ -178,11 +180,14 @@ def get_land_price():
     # get the price of land next year
     land_price = random.randint(17, 23)
     print("***O great Hammurabi, the price of land will be", land_price, "bushels" \
-                                                                             "ls per acre next year***")
+                                                                             " per acre next year***")
     return land_price
 
 def summary():
     print ("Summary goes here")
+
+def game_ends(year_of_rule):
+    pass
 
 if __name__ == '__main__':
     Hamurabi().play_game()
