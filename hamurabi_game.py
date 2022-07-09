@@ -16,6 +16,7 @@ class Hamurabi(object):
         bushels_destroyed = 200
         plague_deaths = 0
 
+
         for year in range(1,11):
             print("Our benevolent leader Hamurabi!\n"
                   "It is year " + str(year_of_rule) + " of your ten year rule.\n"
@@ -26,7 +27,8 @@ class Hamurabi(object):
                   "Rats destroyed " + str(bushels_destroyed) + " bushels, leaving " + str(bushels) + " in storage.\n"
                   "The city owns " + str(acres_of_land) + " acres of land.\n"
                   "Land is currently worth " + str(land_value) + " bushels per acre. \n" 
-                  "There were " + str(plague_deaths) + " deaths from the plague")
+                  "There were " + str(plague_deaths) + " deaths from the plague\n"
+                  "============********* Year " + str(year_of_rule) + " **********==========\n")
 
 
             acres_bought = ask_to_buy_land(bushels, land_value)
@@ -66,7 +68,7 @@ class Hamurabi(object):
 
 
 
-def rules(self):
+def _rules(self):
      print("Congratulations! You are the new ruler of ancient Sumer, elected for a ten year term of office. \n"
             "Your duties are to dispense food, direct farming, and buy and sell land as needed to support your people.\n"
             "Watch out for rat infestations and the plague! Grain is the general currency, measured in bushels.\n"
