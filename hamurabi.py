@@ -1,5 +1,9 @@
 import random
 
+
+
+
+
 class Hamurabi(object):
     def play_game(self):
 
@@ -76,45 +80,45 @@ class Hamurabi(object):
               "Rule poorly and you will be kicked out of office!")
         print("Let's play!\n ===========================================")
 
-    def ask_to_buy_land(bushels_in_storage, cost):
-        acres = int(input("How many acres of land do you want to buy?\n"))
-        while acres * cost > bushels_in_storage:
-            print("You only have" + str(bushels_in_storage) + "bushels of grain.")
-            acres = int(input("Again, how many acres do  you want to buy?\n"))
-        return acres
+ def ask_to_buy_land(bushels_in_storage, cost):
+    acres = int(input("How many acres of land do you want to buy?\n"))
+    while acres * cost > bushels_in_storage:
+        print("You only have" + str(bushels_in_storage) + "bushels of grain.")
+        acres = int(input("Again, how many acres do  you want to buy?\n"))
+    return acres
 
-    def ask_to_sell_land(curr_acres, cost):
-        acres = int(input("How many acres of land do you want to sell?\n"))
-        while acres > curr_acres:
-            print("You don't have enough acres to sell.\n")
-            acres = int(input("Again, how many acres do you want to sell?"))
-        return acres
+def ask_to_sell_land(curr_acres, cost):
+    acres = int(input("How many acres of land do you want to sell?\n"))
+    while acres > curr_acres:
+        print("You don't have enough acres to sell.\n")
+        acres = int(input("Again, how many acres do you want to sell?"))
+    return acres
 
-    def ask_to_feed_people(curr_bushels, num_of_people):
-        bushels_ongoing = int(input("How many bushels of grain will you feed the people?\n"))
-        while bushels_ongoing > curr_bushels:
-            print("You don't have enough bushels of grain.")
-            bushels_to_feed = int(input("Try again. How many bushels do you want to feed your people?\n"))
-        return bushels_ongoing
+def ask_to_feed_people(curr_bushels, num_of_people):
+    bushels_ongoing = int(input("How many bushels of grain will you feed the people?\n"))
+    while bushels_ongoing > curr_bushels:
+        print("You don't have enough bushels of grain.")
+        bushels_ongoing = int(input("Try again. How many bushels do you want to feed your people?\n"))
+      return bushels_ongoing
 
-    def ask_to_plant_land(num_of_people, bushels_ongoing):
-        acres = int(input("How many acres of land do you want to plant with seed?\n"))
-            while True:
-                if acres > num_of_people * 10:
-                    print("You don't have enough people to farm the land.\n")
-                    acres = int(input("Try again. How many acres do you want to plant?\n"))
-                    continue
-                if bushels_ongoing < acres * 2:
-                    print("You don't have enough bushels to plant.\n")
-                    acres = int(input("Try again. How many bushels to plant?\n"))
-                    continue
-                break
-            return acres
+def ask_to_plant_land(num_of_people, bushels_ongoing):
+    acres = int(input("How many acres of land do you want to plant with seed?\n"))
+    while True:
+        if acres > num_of_people * 10:
+            print("You don't have enough people to farm the land.\n")
+            acres = int(input("Try again. How many acres do you want to plant?\n"))
+            continue
+        if bushels_ongoing < acres * 2:
+            print("You don't have enough bushels to plant.\n")
+            acres = int(input("Try again. How many bushels to plant?\n"))
+            continue
+        break
+    return acres
 
     #=================GAMZE CALCULATIONS==============
 
-    def summary():
-        print ("Summary goes here")
+def summary():
+    print ("Summary goes here")
 
 if __name__ == '__main__':
     Hamurabi().play_game()
