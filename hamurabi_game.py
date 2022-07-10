@@ -171,8 +171,8 @@ def get_havst_bushels(acres, unit_havst):
 
 def get_unit_havst():
         # get bushels per acre yielded
-    return random.randint(1, 6)
-
+    return random.randint(1, 6) 
+# test 
 def do_rats_infest(hvst):
         #'''Check if there was rats' infestation'''
     if random.randint(1, 100) < 40:
