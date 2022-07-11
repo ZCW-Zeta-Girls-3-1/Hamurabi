@@ -85,20 +85,23 @@ def print_rules(self):
      print("Let's play!\n ===========================================")
 
 def ask_to_buy_land(bushels_in_storage, cost):
+    print("**You have " + str(bushels_in_storage) + " bushels available to buy land, feed people and plant seed.**\n")
     acres = int(input("How many acres of land do you want to buy?\n"))
     while acres * cost > bushels_in_storage:
-        print("You only have" + str(bushels_in_storage) + " bushels of grain.")
+        print("Oh Hamurabi!! You only have" + str(bushels_in_storage) + " bushels of grain.\n")
         acres = int(input("Again, how many acres do  you want to buy?\n"))
     return acres
 
 def ask_to_sell_land(curr_acres, cost):
     acres = int(input("How many acres of land do you want to sell?\n"))
     while acres > curr_acres:
-        print("You don't have enough acres to sell.\n")
+        print("You don't have enough acres to sell. You only have " + str(curr_acres) + " available.\n")
         acres = int(input("Again, how many acres do you want to sell?"))
     return acres
 
 def ask_to_feed_people(curr_bushels, num_of_people):
+    print("\n**You have " + str(curr_bushels) + " bushels of grain available to feed your people.**\n"
+            "**You need " + str(num_of_people * 20) + " bushels to feed all your people.**\n")
     bushels_fed = int(input("How many bushels of grain will you feed the people?\n"))
     while bushels_fed > curr_bushels:
         print("You don't have enough bushels of grain.")
@@ -110,11 +113,13 @@ def ask_to_plant_land(num_of_people, bushels_ongoing):
     while True:
         if acres > num_of_people * 10:
             print("You don't have enough people to farm the land.\n")
-            acres = int(input("Try again. How many acres do you want to plant?\n"))
+            acres = int(input("Try again. How many acres do you want to plant? You have enough people to plant "
+                + str(num_of_people * 10) + " acres of land.\n"))
             continue
         if bushels_ongoing < acres * 2:
             print("You don't have enough bushels to plant.\n")
-            acres = int(input("Try again. How many bushels to plant?\n"))
+            acres = int(input("Try again. How many bushels to plant? You have enough bushels of grain to plant " +
+                              str(bushels_ongoing//2) + " acres.\n"))
             continue
         break
     return acres
