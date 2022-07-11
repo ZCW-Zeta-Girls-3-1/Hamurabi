@@ -15,6 +15,7 @@ class Hamurabi(object):
         people_entered = 5
         bushels_destroyed = 200
         plague_deaths = 0
+        print_rules(self)
 
 
         for year in range(1,11):
@@ -64,11 +65,11 @@ class Hamurabi(object):
 
 
 
-        final_summary(acres_of_land, bushels, population, people_starved)
+        final_summary(acres_of_land, bushels, population, people_starved, plague_deaths)
 
 
 
-def _rules(self):
+def print_rules(self):
      print("Congratulations! You are the new ruler of ancient Sumer, elected for a ten year term of office. \n"
             "Your duties are to dispense food, direct farming, and buy and sell land as needed to support your people.\n"
             "Watch out for rat infestations and the plague! Grain is the general currency, measured in bushels.\n"
@@ -84,20 +85,23 @@ def _rules(self):
      print("Let's play!\n ===========================================")
 
 def ask_to_buy_land(bushels_in_storage, cost):
+    print("**You have " + str(bushels_in_storage) + " bushels available to buy land, feed people and plant seed.**\n")
     acres = int(input("How many acres of land do you want to buy?\n"))
     while acres * cost > bushels_in_storage:
-        print("You only have" + str(bushels_in_storage) + " bushels of grain.")
+        print("Oh Hamurabi!! You only have" + str(bushels_in_storage) + " bushels of grain.\n")
         acres = int(input("Again, how many acres do  you want to buy?\n"))
     return acres
 
 def ask_to_sell_land(curr_acres, cost):
     acres = int(input("How many acres of land do you want to sell?\n"))
     while acres > curr_acres:
-        print("You don't have enough acres to sell.\n")
+        print("You don't have enough acres to sell. You only have " + str(curr_acres) + " available.\n")
         acres = int(input("Again, how many acres do you want to sell?"))
     return acres
 
 def ask_to_feed_people(curr_bushels, num_of_people):
+    print("\n**You have " + str(curr_bushels) + " bushels of grain available to feed your people.**\n"
+            "**You need " + str(num_of_people * 20) + " bushels to feed all your people.**\n")
     bushels_fed = int(input("How many bushels of grain will you feed the people?\n"))
     while bushels_fed > curr_bushels:
         print("You don't have enough bushels of grain.")
@@ -109,11 +113,13 @@ def ask_to_plant_land(num_of_people, bushels_ongoing):
     while True:
         if acres > num_of_people * 10:
             print("You don't have enough people to farm the land.\n")
-            acres = int(input("Try again. How many acres do you want to plant?\n"))
+            acres = int(input("Try again. How many acres do you want to plant? You have enough people to plant "
+                + str(num_of_people * 10) + " acres of land.\n"))
             continue
         if bushels_ongoing < acres * 2:
             print("You don't have enough bushels to plant.\n")
-            acres = int(input("Try again. How many bushels to plant?\n"))
+            acres = int(input("Try again. How many bushels to plant? You have enough bushels of grain to plant " +
+                              str(bushels_ongoing//2) + " acres.\n"))
             continue
         break
     return acres
@@ -121,52 +127,38 @@ def ask_to_plant_land(num_of_people, bushels_ongoing):
 def do_plague(num_of_people):
         # simulate whether or not a plague happened and return a consequence
     if random.randint(0, 100) < 15:
-       # print("***O great Hammurabi, unluckily a horrible PLAGUE" \
-        #          " happened!", num_of_people / 2, "people died***")
+        print("***O great Hammurabi, a horrible PLAGUE happened! ", str(num_of_people // 2), " people died***")
         return num_of_people // 2
     else:
-        #print("***Thank God! No plague this year***")
         return 0
 
 def get_starved_num(num_of_people, bushels_fed):
         # get the number of people starved this year
     num_of_the_starved = ((num_of_people *20) - bushels_fed) / 20
     if num_of_the_starved > 0:
-        # print("***O great Hammurabi, unfortunately this year we " \
-        #           "have", num_of_the_starved, "PEOPLE STARVED***")
         return int(num_of_the_starved)
     else:
-        # print("***O brilliant Hammurabi! This year we have NO people starved***")
         return 0
 
 def do_dismissal_for_starv(num_of_the_starved, num_of_people, year_of_rule):
         # judge whether or not the user should be dismissed according
         # to the numbers of people starved
     if (int(num_of_the_starved) > (0.45 * num_of_people)):
-        # print("***O great Hammurabi, we  really regret to inform you that this " \
-        #       "year", num_of_the_starved, "people have been starved, which represent " \
-        #                                   "more than 45% of total population in your Samaria kingdom. According " \
-        #                                   "to our laws, you're now unfortunately given an immediate dismissal request")
         game_ends(year_of_rule)
 
 
 def get_immigrts_num(acres, bushels, num_of_people, num_of_the_starved):
         # get the number of immigrants to our country this year
     if num_of_the_starved:
-        # print("***O great Hammurabi, due to starvation, NO IMMIGRANTS this year" \
-        #       " come to our kingdom***")
+
         return 0
     else:
         num_of_immigrts = (20 * acres + bushels) // (100 * num_of_people) + 1
-        # print("***O great Hammurabi, this year", num_of_immigrts, "immigrants" \
-        #                                                               " come to our kingdom***")
         return num_of_immigrts
 
 def get_havst_bushels(acres, unit_havst):
         # get bushels of grain harvested this year
     bushels_havst = acres * unit_havst
-    # print("***O great Hammurabi, this year we harvest", bushels_havst, "bushels" \
-    #                                                                        " of grain***")
     return bushels_havst
 
 def get_unit_havst():
@@ -174,7 +166,6 @@ def get_unit_havst():
     return random.randint(1, 6)
 
 def do_rats_infest(hvst):
-        #'''Check if there was rats' infestation'''
     if random.randint(1, 100) < 40:
         bushels_destroyed_by_rats = random.randint(10, 30) * hvst // 100
         return bushels_destroyed_by_rats
@@ -188,19 +179,47 @@ def get_land_price():
     #                                                                          " per acre next year***")
     return land_price
 
-def final_summary(acres, bushels, num_of_people, num_of_the_starved):
+def final_summary(acres, bushels, num_of_people, num_of_the_starved, num_of_plague_deaths):
     print("CONGRATULATIONS!\n"
           "Hamurabi our wonderful leader, you've made it successfully through your ten years in charge.\n"
+          "In your final year of rule \n"
           "Your kingdom owns " + str(acres) + " acres of fertile land.\n"
           "Your kingdom has " + str(bushels) + " bushels of grain in storage.\n"
           "Your kingdom has a total population of " + str(num_of_people) + ".\n"
-          "You had " + str(num_of_the_starved) + " people starve in 10 years.\n")
+          "You had " + str(num_of_the_starved) + " people starve.\n"
+          "You had " + str(num_of_plague_deaths) + " die of the plague\n")
+
+
+    eval_population(num_of_people)
+    eval_acres_per_person(acres, num_of_people)
+
 
 def game_ends(year_of_rule):
     print("Oh Hamurabi....Hamurabi...\n"
-          "Unfortunately you starved people and they revolted!\n"
+          "Unfortunately you starved people and your remaining subjects revolted!\n"
           "Your authority ended in the " + str(year_of_rule) + " of your ten year term.")
     quit()
+
+def eval_population(population):
+    if population > 200:
+        print("Wow! Your kingdom is thriving! You attracted many newcomers and your population doubled in 10 years.\n")
+    elif population >= 100 :
+        print("Your population showed a little growth. A solid effort.")
+    elif population < 100:
+        print("Hamurabi!! You must feed your people! You have less people than the beginning of your term.\n"
+              "Stop being stingy with the grain!")
+
+def eval_acres_per_person(acres, population):
+    acres_pp = acres // population
+    if acres_pp > 20:
+        print("Amazing Hamurabi! You've doubled the acres per person in your ten year term.\n")
+    elif acres_pp >= 10:
+        print("Total acres per person has increased slightly showing conservative land management\n"
+              )
+    else:
+        print("Oh Hamurabi. Poor management shows a decrease in the acres per person at the end of your term.\n")
+    print("The total acres per person is " + str(acres_pp) + ".\n")
+
 
 
 if __name__ == '__main__':
