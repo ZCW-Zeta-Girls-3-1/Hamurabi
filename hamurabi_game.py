@@ -44,7 +44,7 @@ class Hamurabi(object):
             bushels_fed = ask_to_feed_people(bushels, population)
             bushels -= bushels_fed
 
-            acres_planted = ask_to_plant_land(population, bushels)
+            acres_planted = ask_to_plant_land(population, bushels, acres_of_land)
             bushels -= acres_planted * 2
 
 
@@ -108,7 +108,7 @@ def ask_to_feed_people(curr_bushels, num_of_people):
         bushels_fed = int(input("Try again. How many bushels do you want to feed your people?\n"))
     return bushels_fed
 
-def ask_to_plant_land(num_of_people, bushels_ongoing):
+def ask_to_plant_land(num_of_people, bushels_ongoing, curr_acres):
     acres = int(input("How many acres of land do you want to plant with seed?\n"))
     while True:
         if acres > num_of_people * 10:
@@ -120,6 +120,10 @@ def ask_to_plant_land(num_of_people, bushels_ongoing):
             print("You don't have enough bushels to plant.\n")
             acres = int(input("Try again. How many bushels to plant? You have enough bushels of grain to plant " +
                               str(bushels_ongoing//2) + " acres.\n"))
+            continue
+        if acres > curr_acres:
+            print("You don't have enough land!\n")
+            acres = int(input("Try again. How many acres to plant?\n"))
             continue
         break
     return acres
